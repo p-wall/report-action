@@ -1,0 +1,20 @@
+name: Local Test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bundle exec rspec --format json --out test-results/rspec-1.json
+      - name: Generate summary
+        if: success() || failure()
+        uses: ./
+        with:
+          pattern: "test-results/rspec-*.json"
