@@ -1,0 +1,24 @@
+name: 'RSpec Summary Action'
+description: 'Summarize RSpec test results in a GitHub Actions Summary.'
+author: 'p-wall'
+branding:
+  icon: 'file-text'
+  color: 'blue'
+
+outputs:
+  failing_tests:
+    description: 'An array of failing tests.'
+  slack_message:
+    description: 'A message to send to Slack.'
+
+inputs:
+  pattern:
+    description: 'File pattern to match (e.g., "*.json" or "test-results/rspec-*.json")'
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    PATTERN: ${{ inputs.pattern }}
+    DIRECTORY: ${{ inputs.directory }}
